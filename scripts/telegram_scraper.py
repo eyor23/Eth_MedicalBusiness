@@ -4,6 +4,7 @@ import asyncio
 import csv
 import os
 import sqlite3
+from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -15,12 +16,18 @@ phone = os.getenv('PHONE')
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Function to extract username from URL
+def extract_username(url):
+    parsed_url = urlparse(url)
+    return parsed_url.path.strip('/')
+
 # Function to scrape data from a single channel
-async def scrape_channel(client, channel_username, writer, media_dir):
+async def scrape_channel(client, channel_url, writer, media_dir):
+    channel_username = extract_username(channel_url)
     entity = await client.get_entity(channel_username)
-    channel_title = entity.title  # Extract the channel's title
+    channel_title = getattr(entity, 'title', channel_username)  # Extract the channel's title if it exists, otherwise use the username
     logging.info(f"Scraping data from channel: {channel_title}")
-    async for message in client.iter_messages(entity, limit=10000):
+    async for message in client.iter_messages(entity, limit=150):  # Limit to 150 messages
         media_path = None
         if message.media and hasattr(message.media, 'photo'):
             # Create a unique filename for the photo
@@ -93,7 +100,7 @@ async def main():
             # List of channels to scrape
             channels = [
                 'https://t.me/DoctorsET',
-                'Chemed Telegram Channel',
+                'https://t.me/Chemed',
                 'https://t.me/lobelia4cosmetics',
                 'https://t.me/yetenaweg',
                 'https://t.me/EAHCI'
