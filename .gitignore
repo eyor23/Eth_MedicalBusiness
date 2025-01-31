@@ -1,3 +1,4 @@
 data/
 embvenv
 .env
+scripts/scraping_session.session
