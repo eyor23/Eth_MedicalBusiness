@@ -3,4 +3,5 @@ embvenv
 .env
 scripts/scraping_session.session
 scripts/__pycache__
-EthMedicalBusiness_DBT/profiles.yml
+logs/
+.vscode
