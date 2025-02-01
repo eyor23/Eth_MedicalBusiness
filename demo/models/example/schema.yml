@@ -1,0 +1,141 @@
+
+version: 2
+
+sources:
+  - name: public
+    tables:
+      - name: telegram_messages
+        description: "Table containing raw Telegram messages data."
+
+models:
+  - name: my_first_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: my_second_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+models:
+  - name: stg_messages
+    description: "Staging model for Telegram messages."
+    columns:
+      - name: channel_title
+        description: "Title of the Telegram channel."
+        tests:
+          - not_null
+      - name: channel_username
+        description: "Username of the Telegram channel."
+        tests:
+          - not_null
+      - name: message_id
+        description: "ID of the message."
+        tests:
+          - not_null
+          - unique
+      - name: message
+        description: "Content of the message."
+        tests:
+          - not_null
+      - name: message_date
+        description: "Date and time the message was sent."
+        tests:
+          - not_null
+      - name: media_path
+        description: "Path to the media attached to the message."
+      - name: emoji_used
+        description: "Indicates if an emoji was used in the message."
+      - name: youtube_links
+        description: "YouTube links included in the message."
+
+  - name: messages_with_youtube
+    description: "Model for messages that contain YouTube links."
+    columns:
+      - name: channel_title
+        description: "Title of the Telegram channel."
+      - name: channel_username
+        description: "Username of the Telegram channel."
+      - name: message_id
+        description: "ID of the message."
+      - name: message
+        description: "Content of the message."
+      - name: message_date
+        description: "Date and time the message was sent."
+      - name: media_path
+        description: "Path to the media attached to the message."
+      - name: emoji_used
+        description: "Indicates if an emoji was used in the message."
+      - name: youtube_links
+        description: "YouTube links included in the message."
+        tests:
+          - not_null
+
+  - name: emoji_message_count
+    description: "Model for counting messages with emoji used."
+    columns:
+      - name: emoji_message_count
+        description: "Number of messages that have emoji used."
+
+  - name: messages_by_date
+    description: "Model for messages within a specific date range."
+    columns:
+      - name: channel_title
+        description: "Title of the Telegram channel."
+      - name: channel_username
+        description: "Username of the Telegram channel."
+      - name: message_id
+        description: "ID of the message."
+      - name: message
+        description: "Content of the message."
+      - name: message_date
+        description: "Date and time the message was sent."
+        tests:
+          - not_null
+      - name: media_path
+        description: "Path to the media attached to the message."
+      - name: emoji_used
+        description: "Indicates if an emoji was used in the message."
+      - name: youtube_links
+        description: "YouTube links included in the message."
+
+  - name: messages_with_media
+    description: "Model for messages that contain media."
+    columns:
+      - name: channel_title
+        description: "Title of the Telegram channel."
+      - name: channel_username
+        description: "Username of the Telegram channel."
+      - name: message_id
+        description: "ID of the message."
+      - name: message
+        description: "Content of the message."
+      - name: message_date
+        description: "Date and time the message was sent."
+      - name: media_path
+        description: "Path to the media attached to the message."
+        tests:
+          - not_null
+      - name: emoji_used
+        description: "Indicates if an emoji was used in the message."
+      - name: youtube_links
+        description: "YouTube links included in the message."
+
+  - name: group_messages_by_channel
+    description: "Model for grouping messages by channel and counting the number of messages per channel."
+    columns:
+      - name: channel_title
+        description: "Title of the Telegram channel."
+      - name: message_count
+        description: "Number of messages in the channel."
+        tests:
+          - not_null
