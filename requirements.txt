@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+psycopg2-binary
+python-dotenv
+requests
+streamlit
+torch
+pandas
+cv2
+pathlib
+TelegramClient
+asyncio
+csv
