@@ -5,3 +5,6 @@ scripts/scraping_session.session
 scripts/__pycache__
 logs/
 .vscode
+scripts/yolov5s.pt
+scripts/scraping.log
+yolov5/
