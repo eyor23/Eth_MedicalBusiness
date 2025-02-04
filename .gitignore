@@ -8,3 +8,4 @@ logs/
 scripts/yolov5s.pt
 scripts/scraping.log
 yolov5/
+fastAPI/__pycache__
